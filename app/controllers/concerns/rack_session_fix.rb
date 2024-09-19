@@ -4,9 +4,7 @@ module RackSessionFix
       def enabled?
         false
       end
-      def destroy
-        # No hace nada
-      end
+      
     end
     included do
       before_action :set_fake_rack_session_for_devise

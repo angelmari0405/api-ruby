@@ -1,6 +1,8 @@
 module Api
     module V1
         class ProductsController <ApplicationController
+            
+            before_action :authenticate_user!, only: %i[create update destroy]
             before_action :set_product, only: %i[show update destroy]
 
             #GET /api/v1/products
@@ -30,8 +32,9 @@ module Api
 
             #POST   /api/v1/products
             def create
-                
-                @product = Product.new(product_params)
+                #puts current_user.id
+                @product = Product.new(product_params.merge(user_id: current_user.id))
+                #@product = current_user.products.build(product_params)
                 if @product.save
                     render json: { message: 'Producto agregado satisfactoriamente', data: @product }
                 else
